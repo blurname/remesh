@@ -3,12 +3,19 @@ import { useRemeshDomain, useRemeshQuery, useRemeshSend } from 'remesh-react'
 
 import { FlightBookerDomain, FlightBookerOption } from 'remesh-domains-for-demos/dist/7guis/FlightBooker'
 
+// note
+// 1. one way: just book flight
+// 2. retun way: need to check go date <= back date
+// show state internal constraint
+// 3. go date & back date => canBookStatus
+// in noraml we will implement the logic in UI layer, but not we just put in domain
+// because the option alse affect status, also put in domain
 export const FlightBookerApp = () => {
   const send = useRemeshSend()
   const flightBooker = useRemeshDomain(FlightBookerDomain())
   const option = useRemeshQuery(flightBooker.query.OptionQuery())
   const status = useRemeshQuery(flightBooker.query.StatusQuery())
-
+  
   const startDateInput = useRemeshQuery(flightBooker.query.StartDateInputQuery())
   const endDateInput = useRemeshQuery(flightBooker.query.EndDateInputQuery())
 

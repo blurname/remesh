@@ -121,7 +121,7 @@ export const FlightBookerDomain = Remesh.domain({
     const StatusQuery = domain.query({
       name: 'StatusQuery',
       impl: ({ get }): FlightBookerStatus => {
-        const option = get(OptionState())
+        const option = get(OptionQuery())
         const startDate = get(StartDateQuery())
         const endDate = get(EndDateQuery())
 

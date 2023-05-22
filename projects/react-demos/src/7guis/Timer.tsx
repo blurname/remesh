@@ -3,6 +3,7 @@ import { useRemeshDomain, useRemeshQuery, useRemeshSend } from 'remesh-react'
 
 import { TimerDomain } from 'remesh-domains-for-demos/dist/7guis/Timer'
 
+// note: 事件系统初见端倪
 export const TimerApp = () => {
   const send = useRemeshSend()
   const timerDomain = useRemeshDomain(TimerDomain())
@@ -19,7 +20,7 @@ export const TimerApp = () => {
   const handleResetElapsed = () => {
     send(timerDomain.command.ResetElapsedCommand())
   }
-
+  console.log('elapsed',elapsed)
   return (
     <div
       style={{
@@ -38,7 +39,7 @@ export const TimerApp = () => {
               display: 'inline-block',
               height: 10,
               background: 'green',
-              width: `${Math.min(elapsed / duration, 1) * 100}%`,
+              width: `${elapsed / duration * 100}%`,
               verticalAlign: 'middle',
               borderRadius: 5,
             }}

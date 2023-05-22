@@ -2,13 +2,15 @@ import React from 'react'
 import { useRemeshDomain, useRemeshQuery, useRemeshSend } from 'remesh-react'
 
 import { TemperatureConverterDomain } from 'remesh-domains-for-demos/dist/7guis/TemperatureConverter'
-
+// note
+// two input, affect eachother
+// update one, then update another
 export const TemperatureConverterApp = () => {
   const send = useRemeshSend()
   const domain = useRemeshDomain(TemperatureConverterDomain())
   const celsius = useRemeshQuery(domain.query.CelsiusQuery())
   const fahrenheit = useRemeshQuery(domain.query.FahrenheitQuery())
-
+  
   const handleCelsius = (event: React.ChangeEvent<HTMLInputElement>) => {
     send(domain.command.UpdateCelsiusCommand(event.target.value))
   }
@@ -16,6 +18,7 @@ export const TemperatureConverterApp = () => {
   const handleFahrenheit = (event: React.ChangeEvent<HTMLInputElement>) => {
     send(domain.command.UpdateFahrenheitCommand(event.target.value))
   }
+  console.log('rerender')
 
   return (
     <div

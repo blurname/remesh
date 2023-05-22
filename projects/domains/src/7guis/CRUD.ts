@@ -13,11 +13,29 @@ export type NameItem = {
 export const CRUDDomain = Remesh.domain({
   name: 'CRUDDomain',
   impl: (domain) => {
-    let nameUid = 0
+    let nameUid = 3
 
     const nameListModule = ListModule<NameItem>(domain, {
       name: 'NameListModule',
       key: (item) => item.id,
+      default:[
+        {
+          name:'1',
+          surname:'a',
+          id:'0'
+        }
+        ,{
+        name:'1',
+        surname:'b',
+        id:'1'
+      },
+      {
+        name:'2',
+        surname:'b',
+        id:'2'
+      },
+
+      ]
     })
 
     const FilterPrefixState = domain.state({
@@ -35,7 +53,7 @@ export const CRUDDomain = Remesh.domain({
     const UpdateFilterPrefixCommand = domain.command({
       name: 'UpdateFilterPrefixCommand',
       impl: ({}, prefix: string) => {
-        return FilterPrefixState().new(prefix)
+        return [FilterPrefixState().new(prefix),SelectedState().new(null)]
       },
     })
 

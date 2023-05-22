@@ -49,7 +49,7 @@ export const TemperatureConverterDomain = Remesh.domain({
 
         const fahrenheit = celsius * (9 / 5) + 32
 
-        return [CelsiusState().new(input), FahrenheitState().new(fahrenheit.toString())]
+        return [CelsiusState().new(input)]
       },
     })
 

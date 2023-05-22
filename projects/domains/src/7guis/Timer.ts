@@ -9,7 +9,7 @@ export const TimerDomain = Remesh.domain({
   inspectable: false,
   impl: (domain) => {
     const DurationState = domain.state({
-      name: 'DurationState',
+      name:'DurationState',
       default: 15000,
     })
 
@@ -63,7 +63,7 @@ export const TimerDomain = Remesh.domain({
           return [DurationState().new(newDuration), StartEvent()]
         }
 
-        return DurationState().new(newDuration)
+        return [DurationState().new(newDuration),ElapsedState().new(newDuration)]
       },
     })
 
@@ -84,15 +84,19 @@ export const TimerDomain = Remesh.domain({
         const stopEvent$ = fromEvent(StopEvent).pipe(map(() => 0))
 
         return merge(startEvent$, stopEvent$).pipe(
-          distinctUntilChanged(),
-          switchMap((signal) => {
+          distinctUntilChanged(), // bl: useful , no continue until signal is changed
+          switchMap((signal) => { // swtich means use new instead of old, if there are multiple observable
+            console.log('signal',signal)
             if (signal === 0) {
               return NEVER
             }
             return animationFrames().pipe(
-              pairwise(),
-              map(([a, b]) => UpdateElapsedCommand(b.elapsed - a.elapsed)),
-              takeUntil(fromEvent(StopEvent)),
+              pairwise(), // make prev,cur -> [prev,cur]
+              map(([a, b]) => {
+                console.log(b.elapsed - a.elapsed)
+                return UpdateElapsedCommand(b.elapsed - a.elapsed)
+              }),
+              // takeUntil(fromEvent(StopEvent)) // bl: it's useless?
             )
           }),
         )

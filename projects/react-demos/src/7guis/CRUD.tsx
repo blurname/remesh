@@ -5,7 +5,11 @@ import { useRemeshDomain, useRemeshQuery, useRemeshSend } from 'remesh-react'
 import { CRUDDomain } from 'remesh-domains-for-demos/dist/7guis/CRUD'
 
 import { OuterClickWrapper } from './OuterClickWrapper'
-
+// note
+// 0. 有选中状态，和非选中状态
+// 1. 没有选中项的时候，只有 create
+// 2. 有选中项的时候，有 update 
+// 3. update, delete, search by Surname
 export const CRUDApp = () => {
   const send = useRemeshSend()
   const domain = useRemeshDomain(CRUDDomain())
@@ -14,6 +18,7 @@ export const CRUDApp = () => {
   const created = useRemeshQuery(domain.query.CreatedQuery())
   const selected = useRemeshQuery(domain.query.SelectedQuery())
 
+  // TODO:需要完善 search 时的选中 id，
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     send(domain.command.UpdateFilterPrefixCommand(e.target.value))
   }
